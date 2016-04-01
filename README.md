@@ -1,3 +1,3 @@
-**CSCI3060U-Davery-Phase6**
-	- Davison back end
-	- Avery front end
+- **CSCI3060U-Davery-Phase6**:
+	- Tyler Davidson back end
+	- Steven Avery front end
