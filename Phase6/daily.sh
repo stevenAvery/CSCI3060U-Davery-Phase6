@@ -31,11 +31,14 @@ EXEC="FrontEnd.o"                                  # executable file to run scri
 USER_ACCOUNTS_DIR=$FRONT_END_DIR                   # user accounts file dir location
 USER_ACCOUNTS_FILE="user-accounts-file.dat"        # user accounts file name
 BANK_ACCOUNTS_FILE="Bank-Account-Transactions.txt" # bank accounts file name
-DAILY_SESSIONS_DIR=DailySessions                   # daily sessions dir
+DAILY_SESSIONS_DIR="DailySessions"                 # daily sessions dir
+BANK_ACCOUNTS_OUT_DIR="BankAccounts"               # the daily bank accounts
+MERGED_ACCOUNTS=$BANK_ACCOUNTS_OUT_DIR/"MergedAccounts.dat"
+BACK_END_SRC_DIR="../BankBackEnd/src"
 
-# set up files
+# get accounts
+mkdir -p $BANK_ACCOUNTS_OUT_DIR
 cp $USER_ACCOUNTS_DIR/$USER_ACCOUNTS_FILE .
-touch $BANK_ACCOUNTS_FILE .
 
 # compile the FrontEnd
 v_log "compiling front end"
@@ -48,17 +51,28 @@ for sessionFile in $DAILY_SESSIONS_DIR/*.dat
 do
 	v_log "----------------"
 	v_log "running session: $sessionFile"
-	./$EXEC $USER_ACCOUNTS_FILE $BANK_ACCOUNTS_FILE < "$sessionFile"
+	touch $BANK_ACCOUNTS_FILE . # make sure the bank
+	./$EXEC $USER_ACCOUNTS_FILE $BANK_ACCOUNTS_FILE < $sessionFile
 	echo ""
+
+	cp $BANK_ACCOUNTS_FILE $BANK_ACCOUNTS_OUT_DIR/$(basename $sessionFile | cut -d"." -f1)Accounts.dat
+	rm -f $BANK_ACCOUNTS_FILE
 done
 
 # concatenates the separate Bank Account Transaction Files into a Merged Bank
 # 	Accounts Transaction file
+rm -f $MERGED_ACCOUNTS
+cat $BANK_ACCOUNTS_OUT_DIR/*.dat >> $MERGED_ACCOUNTS
 
 # runs your Back End with the Merged Bank Accounts Transaction File as input
+v_log ""
+v_log "compiling back end"
+javac $BACK_END_SRC_DIR/*.java
+java -cp $BACK_END_SRC_DIR/ Main # TODO: set input files
 
 # clean up
-v_log "cleaning up code"
+v_log "cleaning up temp files"
+rm -f $BACK_END_SRC_DIR/*.class
 rm -f $EXEC
 rm -f $BANK_ACCOUNTS_FILE
 rm -f $USER_ACCOUNTS_FILE
