@@ -26,11 +26,12 @@ do
 done
 
 # initialization
-FRONT_END_DIR="../FrontEnd/src"             # location of the FrontEnd directory
-EXEC="FrontEnd.o"                           # executable file to run script on
-USER_ACCOUNTS_DIR=$FRONT_END_DIR            # user accounts file dir location
-USER_ACCOUNTS_FILE="user-accounts-file.dat" # user accounts file name
+FRONT_END_DIR="../FrontEnd/src"                    # location of the FrontEnd directory
+EXEC="FrontEnd.o"                                  # executable file to run script on
+USER_ACCOUNTS_DIR=$FRONT_END_DIR                   # user accounts file dir location
+USER_ACCOUNTS_FILE="user-accounts-file.dat"        # user accounts file name
 BANK_ACCOUNTS_FILE="Bank-Account-Transactions.txt" # bank accounts file name
+DAILY_SESSIONS_DIR=DailySessions                   # daily sessions dir
 
 # set up files
 cp $USER_ACCOUNTS_DIR/$USER_ACCOUNTS_FILE .
@@ -43,8 +44,13 @@ g++ -std=c++11 $SOURCE_FILES -o $EXEC
 
 # runs your Front End over a number of Banking transaction sessions, saving the
 # 	output Bank Account Transaction File for each session in a separate file
-./$EXEC $USER_ACCOUNTS_FILE $BANK_ACCOUNTS_FILE < "DailySessions/session1.dat"
-
+for sessionFile in $DAILY_SESSIONS_DIR/*.dat
+do
+	v_log "----------------"
+	v_log "running session: $sessionFile"
+	./$EXEC $USER_ACCOUNTS_FILE $BANK_ACCOUNTS_FILE < "$sessionFile"
+	echo ""
+done
 
 # concatenates the separate Bank Account Transaction Files into a Merged Bank
 # 	Accounts Transaction file
