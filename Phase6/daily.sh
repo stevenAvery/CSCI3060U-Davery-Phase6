@@ -26,7 +26,7 @@ do
 done
 
 # initialization
-FRONT_END_DIR="../FrontEnd"                 # location of the FrontEnd directory
+FRONT_END_DIR="../FrontEnd/src"             # location of the FrontEnd directory
 EXEC="FrontEnd.o"                           # executable file to run script on
 USER_ACCOUNTS_DIR=$FRONT_END_DIR            # user accounts file dir location
 USER_ACCOUNTS_FILE="user-accounts-file.dat" # user accounts file name
