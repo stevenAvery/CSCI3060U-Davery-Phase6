@@ -33,8 +33,11 @@ USER_ACCOUNTS_FILE="user-accounts-file.dat"        # user accounts file name
 BANK_ACCOUNTS_FILE="Bank-Account-Transactions.txt" # bank accounts file name
 DAILY_SESSIONS_DIR="DailySessions"                 # daily sessions dir
 BANK_ACCOUNTS_OUT_DIR="BankAccounts"               # the daily bank accounts
-MERGED_ACCOUNTS=$BANK_ACCOUNTS_OUT_DIR/"MergedAccounts.dat"
+#MERGED_ACCOUNTS=$BANK_ACCOUNTS_OUT_DIR/"MergedAccounts.dat"
+MERGED_ACCOUNTS="transactionLogs.txt"
 BACK_END_SRC_DIR="../BankBackEnd/src"              # back end src location
+OLD_MASTER_DIR="../BankBackEnd"
+OLD_MASTER="oldMaster.txt"
 
 # get accounts
 mkdir -p $BANK_ACCOUNTS_OUT_DIR
@@ -66,13 +69,22 @@ cat $BANK_ACCOUNTS_OUT_DIR/*.dat >> $MERGED_ACCOUNTS
 
 # runs your Back End with the Merged Bank Accounts Transaction File as input
 v_log ""
+v_log "setting up backend input files"
+head -n -1 $USER_ACCOUNTS_FILE > temp.txt # remove END_OF_FILE line from frontend accounts
+mv temp.txt $USER_ACCOUNTS_FILE
+
+cat $USER_ACCOUNTS_FILE # TODO debugging
+
+cp $USER_ACCOUNTS_FILE $OLD_MASTER # rename the front end user accounts to backend oldMaster
+
 v_log "compiling back end"
 javac $BACK_END_SRC_DIR/*.java
-# TODO: setup input files
 java -cp $BACK_END_SRC_DIR/ Main # takes transactionLogs.txt and oldMaster.txt
 
 # clean up
 v_log "cleaning up temp files"
+rm -f $MERGED_ACCOUNTS
+rm -f $OLD_MASTER
 rm -f $BACK_END_SRC_DIR/*.class
 rm -f $EXEC
 rm -f $BANK_ACCOUNTS_FILE
