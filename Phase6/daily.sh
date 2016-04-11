@@ -33,11 +33,10 @@ USER_ACCOUNTS_FILE="user-accounts-file.dat"        # user accounts file name
 BANK_ACCOUNTS_FILE="Bank-Account-Transactions.txt" # bank accounts file name
 DAILY_SESSIONS_DIR="DailySessions"                 # daily sessions dir
 BANK_ACCOUNTS_OUT_DIR="BankAccounts"               # the daily bank accounts
-#MERGED_ACCOUNTS=$BANK_ACCOUNTS_OUT_DIR/"MergedAccounts.dat"
-MERGED_ACCOUNTS="transactionLogs.txt"
+MERGED_ACCOUNTS="transactionLogs.txt"              # the final merged accounts file
 BACK_END_SRC_DIR="../BankBackEnd/src"              # back end src location
-OLD_MASTER_DIR="../BankBackEnd"
-OLD_MASTER="oldMaster.txt"
+OLD_MASTER_DIR="../BankBackEnd"                    # original location of old master for backend
+OLD_MASTER="oldMaster.txt"                         # original name for old master
 
 # get accounts
 mkdir -p $BANK_ACCOUNTS_OUT_DIR
@@ -54,7 +53,7 @@ for sessionFile in $DAILY_SESSIONS_DIR/*.dat
 do
 	v_log "----------------"
 	v_log "running session: $sessionFile"
-	touch $BANK_ACCOUNTS_FILE . # make sure the bank
+	touch $BANK_ACCOUNTS_FILE . # make sure the bank accounts file exists
 	./$EXEC $USER_ACCOUNTS_FILE $BANK_ACCOUNTS_FILE < $sessionFile
 	echo ""
 
@@ -73,7 +72,7 @@ v_log "setting up backend input files"
 head -n -1 $USER_ACCOUNTS_FILE > temp.txt # remove END_OF_FILE line from frontend accounts
 mv temp.txt $USER_ACCOUNTS_FILE
 
-cat $USER_ACCOUNTS_FILE # TODO debugging
+cat $USER_ACCOUNTS_FILE # TODO remove (debugging)
 
 cp $USER_ACCOUNTS_FILE $OLD_MASTER # rename the front end user accounts to backend oldMaster
 
