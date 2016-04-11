@@ -6,9 +6,11 @@
 ```
 .
 ├── FrontEnd
-│   └── ...
+│   ├── bin
+│   └── src
 ├── BackEnd
-│   └── ...
+│   ├── bin
+│   └── src
 └── Phase6
     ├── daily.sh
     ├── weekend.sh

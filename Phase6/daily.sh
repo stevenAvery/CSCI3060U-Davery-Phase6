@@ -34,7 +34,7 @@ BANK_ACCOUNTS_FILE="Bank-Account-Transactions.txt" # bank accounts file name
 DAILY_SESSIONS_DIR="DailySessions"                 # daily sessions dir
 BANK_ACCOUNTS_OUT_DIR="BankAccounts"               # the daily bank accounts
 MERGED_ACCOUNTS=$BANK_ACCOUNTS_OUT_DIR/"MergedAccounts.dat"
-BACK_END_SRC_DIR="../BankBackEnd/src"
+BACK_END_SRC_DIR="../BankBackEnd/src"              # back end src location
 
 # get accounts
 mkdir -p $BANK_ACCOUNTS_OUT_DIR
@@ -68,7 +68,8 @@ cat $BANK_ACCOUNTS_OUT_DIR/*.dat >> $MERGED_ACCOUNTS
 v_log ""
 v_log "compiling back end"
 javac $BACK_END_SRC_DIR/*.java
-java -cp $BACK_END_SRC_DIR/ Main # TODO: set input files
+# TODO: setup input files
+java -cp $BACK_END_SRC_DIR/ Main # takes transactionLogs.txt and oldMaster.txt
 
 # clean up
 v_log "cleaning up temp files"
