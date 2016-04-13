@@ -174,11 +174,11 @@ public class AccountList
 	 * Creates the new current and master account files using the accounts in the list
 	 * @throws Exception
 	 */
-	public void writeNewAccountFiles() throws Exception
+	public void writeNewAccountFiles(String newMasterFilePath, String newCurrentAccountsFilePath) throws Exception
 	{
 		try
 		{
-			PrintWriter writer = new PrintWriter("CurrentAccounts.txt");
+			PrintWriter writer = new PrintWriter(newCurrentAccountsFilePath);
 			
 			for(int i = 0; i < accounts.size(); i++)
 			{
@@ -188,7 +188,7 @@ public class AccountList
 			writer.println("99999 END OF FILE          D 00000.00 N");
 			writer.close();
 			
-			writer = new PrintWriter("MasterAccounts.txt");
+			writer = new PrintWriter(newMasterFilePath);
 			
 			for(int i = 0; i < accounts.size(); i++)
 			{

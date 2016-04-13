@@ -245,7 +245,7 @@ public class Account {
      */
     public String formatForCurrentAccountFile()
     {
-    	return String.format("%1$5s %2$-20s %3$1s %4$08.2f %5$1s", accountNumber, holderName, isDisabled ? "D" : "S", balance, isStudent ? "S" : "N");
+    	return String.format("%1$5s %2$-20s %3$1s %4$08.2f %5$1s", accountNumber, holderName, isDisabled ? "D" : "S", balance, isStudent ? "S" : "N").replace(' ', '_');
     }
 
     /**
@@ -256,7 +256,7 @@ public class Account {
     {
     	String recordLine = formatForCurrentAccountFile();
     	
-    	recordLine += String.format(" %1$04d", transactionPerformed);
+    	recordLine += String.format("_%1$04d", transactionPerformed);
     	
     	return recordLine;
     }

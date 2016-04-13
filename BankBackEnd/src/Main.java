@@ -9,22 +9,31 @@ public class Main
 {	
 	public static void main(String[] args) 
 	{
-		String oldMasterFileName = "oldMaster.txt";
-		String transactionLogFileName = "transactionLogs.txt";
-
-		AccountList accounts = new AccountList();
-		
-		try
+		if(args.length == 4)
 		{
-			accounts.loadAccounts(oldMasterFileName);
+			String oldMasterFilePath = args[0];
+			String transactionLogFilePath = args[1];
+			String newMasterFilePath = args[2];
+			String newCurrentAccountsFilePath = args[3];
+	
+			AccountList accounts = new AccountList();
 			
-			updateAccounts(accounts, transactionLogFileName);
-			
-			accounts.writeNewAccountFiles();
+			try
+			{
+				accounts.loadAccounts(oldMasterFilePath);
+				
+				updateAccounts(accounts, transactionLogFilePath);
+				
+				accounts.writeNewAccountFiles(newMasterFilePath, newCurrentAccountsFilePath);
+			}
+			catch (Exception ex)
+			{
+				System.out.println("Error: " + ex.getMessage());
+			}
 		}
-		catch (Exception ex)
+		else
 		{
-			System.out.println("Error: " + ex.getMessage());
+			System.out.println("Error: Missing file path arguments");
 		}
 		
 	}
@@ -76,9 +85,9 @@ public class Main
 				line = transactionReader.readLine();
 				
 				transactionCode = line.substring(TRANSACTION_CODE_START, TRANSACTION_CODE_END);
-				accountHolderName = line.substring(ACCOUNT_HOLDER_START, ACCOUNT_HOLDER_END).trim();
+				accountHolderName = line.substring(ACCOUNT_HOLDER_START, ACCOUNT_HOLDER_END).replace('_', ' ').trim();
 				accountNumber = line.substring(ACCOUNT_NUMBER_START, ACCOUNT_NUMBER_END);
-				miscField = line.substring(MISC_START, MISC_END);
+				miscField = line.substring(MISC_START, MISC_END).replace('_', ' ');
 				
 				if(isExpectingTransferTo && (! transactionCode.equals("02")))
 				{
