@@ -3,15 +3,17 @@
 	- Steven Avery front end
 
 ### Tentative File Structure
-```
+``` 
 .
 ├── FrontEnd
 │   ├── bin
 │   └── src
 ├── BankBackEnd
 │   ├── bin
-│   └── src
+│   └── src	
 └── Phase6
+    ├── BankAccounts  // output of daily transactions, and mergedAccounts
+    ├── DailySessions // daily sessions for input
     ├── daily.sh
-    ├── weekend.sh
+    └── weekend.sh
 ```
